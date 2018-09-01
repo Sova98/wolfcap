@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    img{
+        margin-bottom : 5px;
+    }
+    h5{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        font-weight: 600;
+    }
+    #user-info-card{
+        margin-right : 5px;
+        width: 13rem;
+        margin-left : 5px;
+        display: inline-block;
+        vertical-align: middle;
+        border: none;
+        box-shadow:0 2px 4px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+        border-radius: 8px;
+        text-align: center;
+    }
+    .award-card{
+        margin-right : 5px;
+        width: 11rem;
+        margin-left : 5px;
+        margin-top : 5px;
+        display: inline-block;
+        vertical-align: middle;
+        border: none;
+        box-shadow:0 2px 4px 0 rgba(0,0,0,.16), 0 0 1px 0 #28c38a;
+        border-radius: 8px;
+        text-align: center;
+    }
+    #levelContainer{
+        width: 36px;
+        height: 32px;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMzYiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCAzNiAzNiI+CiAgICA8ZGVmcz4KICAgICAgICA8cGF0aCBpZD0iYiIgZD0iTTM0IDBIMnY3LjA0NmwuMDAzIDE0Ljc0N2MwIDMuMjY1IDIuMjczIDUuOTEzIDUuMDc3IDUuOTEzaDYuNzQxTDE4IDMybDQuMTc5LTQuMjk0aDYuNzQxYzIuODA0IDAgNS4wNzctMi42NDggNS4wNzctNS45MTNMMzQgNy4wNDZWMHoiLz4KICAgICAgICA8ZmlsdGVyIGlkPSJhIiB3aWR0aD0iMTIxLjklIiBoZWlnaHQ9IjEyMS45JSIgeD0iLTEwLjklIiB5PSItNy44JSIgZmlsdGVyVW5pdHM9Im9iamVjdEJvdW5kaW5nQm94Ij4KICAgICAgICAgICAgPGZlT2Zmc2V0IGR5PSIxIiBpbj0iU291cmNlQWxwaGEiIHJlc3VsdD0ic2hhZG93T2Zmc2V0T3V0ZXIxIi8+CiAgICAgICAgICAgIDxmZUdhdXNzaWFuQmx1ciBpbj0ic2hhZG93T2Zmc2V0T3V0ZXIxIiByZXN1bHQ9InNoYWRvd0JsdXJPdXRlcjEiIHN0ZERldmlhdGlvbj0iMSIvPgogICAgICAgICAgICA8ZmVDb2xvck1hdHJpeCBpbj0ic2hhZG93Qmx1ck91dGVyMSIgdmFsdWVzPSIwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwLjEgMCIvPgogICAgICAgIDwvZmlsdGVyPgogICAgPC9kZWZzPgogICAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDEpIj4KICAgICAgICAgICAgPHVzZSBmaWxsPSIjMDAwIiBmaWx0ZXI9InVybCgjYSkiIHhsaW5rOmhyZWY9IiNiIi8+CiAgICAgICAgICAgIDx1c2UgZmlsbD0iIzI4QzM4QSIgeGxpbms6aHJlZj0iI2IiLz4KICAgICAgICA8L2c+CiAgICAgICAgPHBhdGggZmlsbD0iIzI0RDY5NSIgZD0iTTM2IDFIMHY2SDM2eiIvPgogICAgPC9nPgo8L3N2Zz4K);
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+        color:white;
+        right:10px;
+        bottom:14px;
+        position:absolute;
+    }
+    #awards-container{
+      width: calc(100% - 250px);
+      padding:10px;
+      margin-top:20px;
+      box-sizing: border-box;
+      white-space:nowrap;
+      overflow-x: scroll;
+      background: #f5f5f5;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; /* make scrollbar transparent */
+    }
+    #user-extra-info-card{
+        margin-right : 5px;
+        margin-top: 5px;
+        display: inline-block;
+        vertical-align: middle;
+        border: none;
+        box-shadow:0 2px 4px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+        border-radius: 8px;
+        text-align: center;
+        width: calc(100% - 250px);
+    }
+</style>
+    <div style="margin-top:20px;">
+        <div style="width:13rem">
+            <div class="card" id="user-info-card" style="max-width: 300px; float: left">
+                <div class="card-body">
+                    <img style="border-radius:50%" class="card-img-top" src="{{ url_for('static', filename='images/default-avatar.jpg') }}">
+                    <h5 class="card-text">{{ user.name }}</h5>
+
+                    <div style="" id="levelContainer">{{ user.level }}</div>
+                    <div style="width:auto; margin-right:30px;" class="progress">
+                        <div class="progress-bar" role="progressbar" style="padding-left:5px; width:60%; background-color:#28c38a"aria-valuemin="0" aria-valuemax="100">{{user.experience}}/150</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="awards-container"  class="">
+            {% for award in awards %}
+            <div class="card award-card">
+                <div class="card-body">
+                    <div>
+                        <img style="width: 100px" src="{{ award.src }}">
+                    </div>
+                    <h5 class="card-title">{{award.name}}</h5>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="card" id="user-extra-info-card">
+            <div class="card-body" style="text-align:left">
+                <h5>Основная информация</h5>
+                <h6 class="card-text text-muted"></h6>
+                <h6 class="card-text text-muted"></h6>
+            </div>
+        </div>
+    </div>
+{% endblock %}

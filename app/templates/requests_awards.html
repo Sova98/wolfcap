@@ -1,0 +1,50 @@
+{% extends 'admin_base.html' %}
+
+{% block content%}
+
+
+{% for request in requests %}
+    <div class="jumbotron" style="background-color:#f6fbfc">
+            <h5>Требования:</h5>
+          <p class="lead">{{request.requirement}}</p>
+          <hr class="my-4">
+            <h5>Примечание пользователя</h5>
+          <p>{{request.letter}}</p>
+        {%if request.images %}
+            {% for image in request.images %}
+                <img width="200px" src="{{image[0]}}">
+            {% endfor %}
+        {% endif %}
+          <p class="lead">
+            <a class="btn btn-success btn-lg" onclick="Reward('{{request.id_user}}', '{{request.id_award}}')" role="button">Наградить</a>
+            <a class="btn btn-warning btn-lg" href="#" role="button">Отклонить</a>
+          </p>
+    </div>
+{% endfor %}
+
+<script>
+
+    //наградить пользователя
+    function Reward(id_user, id_award){
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "{{ url_for('main.reward') }}",
+            dataType: 'json',
+            data: JSON.stringify({id_user : id_user, id_award:id_award}),
+            success: function (result) {
+                if(result['result'] == "OK") {
+                    var categories = JSON.parse(result['data']);
+                }
+                else{
+                    console.log(result['msg'])
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <title>Авторизация капитана</title>
+</head>
+<style>
+    .registration-container{
+        width:300px;
+        display: inline-block;
+        border: solid 1px lightgrey;
+        border-radius: 3px;
+        padding: 10px;
+    }
+    .navbar-styles{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    li{
+        padding-right: 12px;
+        padding-left: 12px;
+        height: 32px;
+    }
+    a{
+        vertical-align: -webkit-baseline-middle;
+    }
+    .nav-link{
+        display: initial;
+        color:#37383c!important;
+    }
+    .nav-item:hover{
+        border-radius: 16px;
+        background-color: #e9e9e9;
+    }
+    .login-container{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 0;
+    }
+    #background-image{
+        width:100%;
+        height:100vh;
+        background-image: url("{{ url_for('static', filename='images/welcome-image.jpg') }}");
+        position:absolute;
+        left:0;
+        top:0;
+        z-index:-50;
+    }
+    #welcome-title-image{
+        position:absolute;
+        top:-340px;
+        left:-100px;
+        width:800px;
+        z-index:-10;
+    }
+    #welcome-title{
+        top:0;
+        left:50px;
+        display:inline-block;
+        text-align:left;
+        margin-top:150px;
+        position:absolute;
+    }
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light navbar-styles">
+      <a class="navbar-brand" href="#" style="margin-left:20px">Капитаны</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+<div class="container" style="text-align:right">
+    <div id="background-image">
+
+    </div>
+    <div id="welcome-title" style="">
+        <img id="welcome-title-image" src="{{ url_for('static', filename='images/welcome-title-cloud.png') }}">
+        <h1 style="font-weight:bold;color:#37383c">Покори сердца окружающих<br/>вместе с Капитанами!</h1>
+        <h5 style="margin-top:50px; color:#7e919f">Капитаны - это нескучный сервис для улучшения<br/> своих навыков во всех сферах жизни</h5>
+    </div>
+    <div class="login-container" style="margin-top: 10px; width:350px; float:right">
+        <form method="post" style="text-align:center; width:100%;padding-top:20px; padding-right:20px; padding-left:20px">
+            <h5 style="font-size:16px; font-weight:600; color:#37383c">ВХОД</h5>
+            <div class="form-group">
+                <input name="user_email" type="email" class="form-control" id="userInputEmail" aria-describedby="emailHelp" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <input name="user_password" type="password" class="form-control" id="userInputPassword" placeholder="Пароль">
+            </div>
+            <div style="text-align:center">
+                <button onclick="" class="btn btn-success" style="font-size:14px; width:100%">ВОЙТИ</button>
+            </div>
+            <a href="{{url_for('main.registration')}}" style="color:#7e919f">СОЗДАТЬ АККАУНТ</a>
+        </form>
+    </div>
+</div>
+</body>
+
+<script>
+
+</script>
+</html>

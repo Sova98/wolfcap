@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+
+    h5{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        font-weight: 600;
+    }
+    .card{
+        margin-right : 5px;
+        width: 13rem;
+        margin-left : 5px;
+        margin-top: 10px;
+        display: inline-block;
+        vertical-align: middle;
+        border: none;
+        box-shadow:0 2px 4px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+        border-radius: 8px;
+        text-align: center;
+    }
+    .card-body{
+            min-height: 250px;
+    }
+    .label{
+        font-weight:500;
+    }
+</style>
+<div class="modal" id="requestAwardModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Получить награду</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Выполнил задание? Прикрепи доказательства!</label>
+                    {% include '_load_files.html' %}
+                </div>
+                <form class="needs-validation" id="requestAwardForm">
+                    <div class="form-group">
+                        <label>Письмо админам</label>
+                        <textarea class="form-control" id="inputLetter" placeholder="Тока не грубите;)"></textarea>
+                    </div>
+                </form>
+            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="RequestAward()">Запросить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CloseAddNewAwardModal()">Отмена</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+    {% for task in tasks %}
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <img style="width: 150px" src="{{task.src}}">
+                </div>
+                <h5 class="card-title">{{task.name}}</h5>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary" onclick="ShowRequestAwardModal({{task.id}})">Получить</button>
+            </div>
+        </div>
+    {% endfor %}
+
+<script>
+
+    //текущая награда
+    var current_award_id;
+    //запросить награду
+    function RequestAward(){
+        var images = GetImages();
+        var letter = $('#inputLetter').val();
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "/add_request",
+            dataType: 'json',
+            data: JSON.stringify({'images' : images, 'letter' : letter, 'id_award' : current_award_id}),
+            success: function (result) {
+            console.log(result);
+                if(result['result'] == "OK") {
+                    $('#requestAwardModal').modal('hide');
+                }
+                else{
+                    console.log(result['msg'])
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    //показать форму для получения награды
+    function ShowRequestAwardModal(id){
+        current_award_id = id;
+        InitializeRequestAward();
+        $('#requestAwardModal').modal('show');
+    }
+
+    function InitializeRequestAward(){
+        $('#files').val('');
+        $('#inputLetter').val('');
+        $('#list').empty();
+
+    }
+</script>
+{% endblock %}

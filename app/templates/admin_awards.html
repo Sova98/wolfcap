@@ -1,0 +1,184 @@
+{% extends 'admin_base.html' %}
+
+{% block content%}
+<table class="table table-hover table-light" id="awardTable">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Название</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Опыт</th>
+            <th scope="col">Монетки</th>
+            <th scope="col">Получило чел</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for award in awards %}
+        <tr>
+            <th scope="row">{{ award.id }}</th>
+            <td>{{ award.name }}</td>
+            <td>{{ award.id_award_type }}</td>
+            <td>{{ award.experience }}</td>
+            <td>{{ award.coins }}</td>
+            <td>0</td>
+            <td>options</td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+ <div id="addAwardBtn" class="add_button" data-toggle="modal" onclick="ShowAddNewAwardModal()"
+    style="position: fixed">
+        <div class="add_button_content">
+            <p class="material-icons md-24" style="margin-top:10px" >add</p>
+        </div>
+</div>
+
+<div class="modal" id="addAwardModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Добавление награды</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form class="needs-validation" id="addAwardForm">
+          <div class="form-group">
+            <label for="inputAwardName">Название награды</label>
+            <input type="text" class="form-control" id="inputAwardName" placeholder="Введите название" required>
+          </div>
+          <div class="form-group">
+            <label for="inputRequiredAction">Описание задания</label>
+            <input type="text" class="form-control" id="inputRequiredAction" placeholder="Введите задание" required>
+          </div>
+          <div class="form-group">
+            <label for="inputAwardCoins">Монетки</label>
+            <input type="text" class="form-control" id="inputAwardCoins" placeholder="Введите монетки" required>
+          </div>
+          <div class="form-group">
+            <label for="inputAwardExperience">Опыт</label>
+            <input type="text" class="form-control" id="inputAwardExperience" placeholder="Введите опыт" required>
+          </div>
+            <div class="form-group">
+                <label>Картинка</label>
+                <br/>
+                {% include '_load_files.html' %}
+            </div>
+          <div class="form-group">
+              <label for="awardType">Категория</label>
+              <select class="form-control" id="awardType">
+                <option>Категория</option>
+              </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="AddAward()">Добавить</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="CloseAddNewAwardModal()">Отмена</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    //загрузить категории
+    LoadCategories();
+
+
+    //поазать окно добавления награды
+    function ShowAddNewAwardModal(){
+        $('#addAwardModal').modal('show');
+    }
+
+    //скрыть окно добавления награды
+    function CloseAddNewAwardModal(){
+        $('#addAwardModal').modal('hide');
+    }
+    //отправить запрос на добавление награды
+    function AddAward(){
+        var form = document.getElementById('addAwardForm');
+
+        if(form.checkValidity() == false){
+            form.classList.add('was-validated');
+            return
+        }
+
+        var name = $('#inputAwardName').val();
+        var action = $('#inputRequiredAction').val();
+        var coins = $('#inputAwardCoins').val();
+        var experience = $('#inputAwardExperience').val();
+        var category = $('#awardType').find('option:selected').attr('id');
+        var image_src = GetImages()[0];
+
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "{{ url_for('main.add_award') }}",
+            dataType: 'json',
+            data: JSON.stringify({'name' : name, 'requirement' : action, 'coins' : coins, 'experience' : experience,
+             'id_award_type' : category, 'image_src' : image_src}),
+            success: function (result) {
+                if(result['result'] == "OK") {
+                    var award = result['data'];
+                    CloseAddNewAwardModal();
+                    AddAwardToTable(award);
+                }
+                else{
+                    console.log(result['msg'])
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    //загрузить категории
+    function LoadCategories(){
+
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "{{ url_for('main.get_all_task_tags') }}",
+            dataType: 'json',
+            //data: JSON.stringify(),
+            success: function (result) {
+                if(result['result'] == "OK") {
+                    var categories = JSON.parse(result['data']);
+                    AddCategoriesToSelect(categories);
+                }
+                else{
+                    console.log(result['msg'])
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    //добавить категории в окно добавления задания
+    function AddCategoriesToSelect(categories){
+        var select = $('#awardType');
+        categories.forEach(function(category){
+            select.append($('<option>').text(category.name).attr('id', category.id));
+        });
+    }
+
+    //добавить категории в окно добавления задания
+    function AddAwardToTable(award){
+        var table = $('#awardTable');
+        table.append( $('<tr>').append(
+        $('<th>').attr('scope', 'row').text(award.id))
+        .append($('<td>').text(award.name))
+        .append($('<td>').text(award.id_award_type))
+        .append($('<td>').text(award.experience))
+        .append($('<td>').text(award.coins))
+        .append($('<td>').text('0'))
+        .append($('<td>').text('options') ) );
+    }
+</script>
+{% endblock %}

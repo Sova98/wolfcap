@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .material-icons{
+        color : lightgrey;
+    }
+    .tab-content{
+        margin-top : 5px;
+    }
+    .card{
+        margin-right : 5px;
+        width: 13rem;
+        margin-left : 5px;
+        margin-top: 10px;
+        display: inline-block;
+        vertical-align: middle;
+        border: none;
+        }
+    #task1{
+        width : 100%;
+        vertical-align:middle
+    }
+    #task1:before{
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+    }
+    .next-award-icon{
+        margin-left:10px;
+        margin-right:10px;
+    }
+    .card-body{
+        min-height: 230px;
+        border-color:red;
+        box-shadow:0 2px 4px 0 rgba(0,0,0,.16), 0 0 1px 0 rgba(0,0,0,.12);
+        border-radius: 8px;
+    }
+    h5{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        font-weight: 600;
+    }
+    a{
+        color:#37383c;
+    }
+    a:hover{
+        color:#37383c;
+    }
+</style>
+<div>
+
+    <div id="tasks-tags" style="margin-top:20px">
+        <h3>Категории</h3>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-karate.jpg')}}">
+                            <h5 class="card-title text-center">Спорт</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-creative.jpg')}}">
+                            <h5 class="card-title text-center">Творчество</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-business.jpg')}}">
+                            <h5 class="card-title text-center">Бизнесс</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-education.jpg')}}">
+                            <h5 class="card-title text-center">Учеба</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-events.jpg')}}">
+                            <h5 class="card-title text-center">Мероприятия</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-intellectual-club.jpg')}}">
+                            <h5 class="card-title text-center">Интеллектуальный клуб</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-improving-system.jpg')}}">
+                            <h5 class="card-title text-center">Система роста</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-life-style.jpg')}}">
+                            <h5 class="card-title text-center">Стиль жизни</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-social-networks.jpg')}}">
+                            <h5 class="card-title text-center">Социальные сети</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-society.jpg')}}">
+                            <h5 class="card-title text-center">Коллектив</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <a href="tasks/1">
+                <div class="card" style="cursor:pointer">
+                    <div class="card-body">
+                        <div style="text-align:center">
+                            <img style="width:150px" src="{{url_for('static', filename='images/tag-else.jpg')}}">
+                            <h5 class="card-title text-center">Другое</h5>
+                        </div>
+                    </div>
+                </div>
+            </a>
+    </div>
+
+</div>
+
+<script>
+
+    //получаем список тэгов заданий
+    function GetTaskTags(){
+        $.ajax({
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                url: "{{ url_for('main.get_all_task_tags') }}",
+                dataType: 'json',
+                //data: JSON.stringify(),
+                success: function (result) {
+                    if(result['result'] == "OK") {
+                        console.log('GetTaskTags', result);
+                        var tags = JSON.parse(result['data']);
+                        AddTagsToMenu(tags);
+                    }
+                    else{
+                        console.log(result['msg'])
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+    }
+
+</script>
+{% endblock %}

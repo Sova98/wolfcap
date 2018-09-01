@@ -1,0 +1,29 @@
+{% extends 'admin_base.html' %}
+
+{% block content%}
+<table class="table table-hover table-light">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Название</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for type in awards_types %}
+        <tr>
+            <th scope="row">{{ type.id }}</th>
+            <td>{{ type.name }}</td>
+            <td>options</td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
+ <div id="addAwardTypeBtn" class="add_button" data-toggle="modal" onclick="ShowAddNewUserModal()"
+    style="position: fixed">
+        <div class="add_button_content">
+            <p class="material-icons md-24" style="margin-top:10px" >add</p>
+        </div>
+</div>
+{% endblock %}
