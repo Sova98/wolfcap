@@ -51,6 +51,23 @@ def add_award():
         return ju.get_response_error(req_add_award.err_msg)
 
 
+
+@bp.route('/delete_award', methods=['POST'])
+@login_required
+def delete_award():
+    if current_user.is_admin == 0:
+        return "Кыш"
+    params = json.loads(request.data.decode('utf-8'))
+    id_award = params['id_award']
+
+    req_delete_award = db_ops.delete_award(id_award=id_award, db_use_class=db_use_class, db_config=db_config)
+
+    if req_delete_award.success:
+        return ju.get_response_success(data=req_delete_award.result)
+    else:
+        return ju.get_response_error(req_delete_award.err_msg)
+
+
 @bp.route('/requests', methods=['POST', 'GET'])
 @login_required
 def requests():
@@ -69,8 +86,20 @@ def reward():
     params = json.loads(request.data.decode('utf-8'))
     id_user = params['id_user']
     id_award = params['id_award']
-    req_reward = db_ops.reward(id_user = id_user, id_award=id_award, db_use_class=db_use_class, db_config=db_config)
+    id_request = params['id_request']
+    req_reward = db_ops.reward(id_user = id_user, id_award=id_award,
+        id_request=id_request, db_use_class=db_use_class, db_config=db_config)
     if req_reward.success:
         return ju.get_response_success(data=req_reward.result)
     else:
         return ju.get_response_error(req_reward.err_msg)
+
+
+
+@bp.route('/get_pg_equipment', methods=['POST', 'GET'])
+def get_pg_equipment():
+    req_equipment= db_ops.get_pg_equipment(db_use_class=db_use_class, db_config=db_config)
+    if req_equipment.success:
+        return 'подключился'
+    else:
+        return 'не подключился' + req_equipment.err_msg

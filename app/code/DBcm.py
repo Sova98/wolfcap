@@ -26,7 +26,10 @@ class UseDatabase:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         try:
-            self.connection.commit()
+            if exc_type:
+                self.connection.commit()
+            else:
+                self.connection.roleback()
             self.cursor.close()
             self.connection.close()
         except psycopg2.ProgrammingError as err:

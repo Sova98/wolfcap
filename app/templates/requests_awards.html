@@ -2,39 +2,58 @@
 
 {% block content%}
 
+<style>
+    .card-body{
+        min-height:0;
+    }
+    .lead{
+        text-align: -webkit-right;
+    }
+</style>
 
 {% for request in requests %}
-    <div class="jumbotron" style="background-color:#f6fbfc">
-            <h5>Требования:</h5>
-          <p class="lead">{{request.requirement}}</p>
-          <hr class="my-4">
-            <h5>Примечание пользователя</h5>
-          <p>{{request.letter}}</p>
-        {%if request.images %}
-            {% for image in request.images %}
-                <img width="200px" src="{{image[0]}}">
-            {% endfor %}
-        {% endif %}
-          <p class="lead">
-            <a class="btn btn-success btn-lg" onclick="Reward('{{request.id_user}}', '{{request.id_award}}')" role="button">Наградить</a>
-            <a class="btn btn-warning btn-lg" href="#" role="button">Отклонить</a>
-          </p>
+    <div claaa='card-columns' style='text-align: -webkit-center;'>
+        <div class="card text-center" style='width:100%; max-width:800px;'>
+          <div class="card-header">
+            {{request.award_name}}
+          </div>
+          <div class="card-body" style='text-align: -webkit-left;'>
+            <p class="card-text">Требование: {{request.requirement}}</p>
+            <p class="card-text">Сообщение пользователя: {{request.letter}}</p>
+            {%if request.images %}
+                {% for image in request.images %}
+                    <img width="200px" src="{{image[0]}}">
+                {% endfor %}
+            {% endif %}
+            <div class="lead">
+                <a class="btn btn-primary" onclick="Reward('{{request.id_user}}',
+                    '{{request.id_award}}', '{{request.id}}')" role="button"
+                    style='color:white'>Наградить</a>
+                <a class="btn btn-secondary" href="#" role="button">Отклонить</a>
+            </div>
+          </div>
+          <div class="card-footer text-muted" style='text-align: -webkit-right;'>
+            <a href='{{url_for("main.profile", id=request.id_user)}}'>{{request.user_name}}</a>
+            <span style='vertical-align: -webkit-baseline-middle;'>(2 days ago)</span>
+          </div>
+        </div>
     </div>
+
 {% endfor %}
 
 <script>
 
     //наградить пользователя
-    function Reward(id_user, id_award){
+    function Reward(id_user, id_award, id_request){
         $.ajax({
             type: 'POST',
             contentType: "application/json; charset=utf-8",
             url: "{{ url_for('main.reward') }}",
             dataType: 'json',
-            data: JSON.stringify({id_user : id_user, id_award:id_award}),
+            data: JSON.stringify({id_user : id_user, id_award:id_award, id_request:id_request}),
             success: function (result) {
                 if(result['result'] == "OK") {
-                    var categories = JSON.parse(result['data']);
+                    console.log('rewarded!');
                 }
                 else{
                     console.log(result['msg'])

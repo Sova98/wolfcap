@@ -23,6 +23,7 @@
         font-family: 'Open Sans', OpenSans,Arial,sans-serif;
         font-weight: 600;
         font-size: 16px;
+        background-color: #e2f1ff;
     }
     li{
         padding-right: 12px;
@@ -50,10 +51,12 @@
     #background-image{
         width:100%;
         height:100vh;
-        background-image: url("{{ url_for('static', filename='images/welcome-image.jpg') }}");
-        position:absolute;
-        left:0;
-        top:0;
+        background-size: 100vw auto;
+        position:fixed;
+        background-position: right top;
+        background-image: url("{{ url_for('static', filename='images/wolfcap_background_image.png') }}");
+        float:left;
+        background-repeat:no-repeat;
         z-index:-50;
     }
     #welcome-title-image{
@@ -71,19 +74,25 @@
         margin-top:150px;
         position:absolute;
     }
+    body{
+        background-color: #e2f1ff;
+    }
 </style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light navbar-styles">
-      <a class="navbar-brand" href="#" style="margin-left:20px">Капитаны</a>
+      <a class="navbar-brand" href="#" style="margin-left:20px">
+          <img src="{{url_for('static', filename='images/wolf.png')}}" width="30" height="30" class="d-inline-block align-top" alt="">
+              WolfCap</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     </nav>
-<div class="container" style="text-align:right">
     <div id="background-image">
 
     </div>
-    <div id="welcome-title" style="">
+<div class="container" style="text-align:right">
+
+    <div id="welcome-title" style="z-index:10">
         <img id="welcome-title-image" src="{{ url_for('static', filename='images/welcome-title-cloud.png') }}">
         <h1 style="font-weight:bold;color:#37383c">Покори сердца окружающих<br/>вместе с Капитанами!</h1>
         <h5 style="margin-top:50px; color:#7e919f">Капитаны - это нескучный сервис для улучшения<br/> своих навыков во всех сферах жизни</h5>

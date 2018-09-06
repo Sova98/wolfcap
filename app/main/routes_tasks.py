@@ -9,18 +9,19 @@ import app.code.json_utils as ju
 from flask_login import login_required
 from flask_login import current_user
 
+
 @bp.route('/tasks', methods=['POST', 'GET'])
 @login_required
 def tasks():
-    req_user = db_ops.load_user_by_id(current_user.id)
-    return render_template('tasks.html')
+    return render_template('tasks.html', title='Награды')
 
 
 @bp.route('/tasks/<id>', methods=['POST', 'GET'])
 @login_required
 def tasks_by_type(id):
     tasks = db_ops.load_all_task_by_category(category=id, db_use_class=db_use_class, db_config=db_config)
-    return render_template('tasks_by_genre.html', tasks=tasks.result)
+    category_name = db_ops.load_category_name(category_id=id, db_use_class=db_use_class, db_config=db_config)
+    return render_template('tasks_by_genre.html', tasks=tasks.result, title=category_name.result[0], category_name=category_name.result[0])
 
 
 @bp.route('/get_all_task_tags', methods=['POST'])
@@ -39,8 +40,6 @@ def get_all_task_tags(user : User= None):
 @login_required
 @ju.safe_execute_json
 def add_request():
-    if current_user.is_admin == 0:
-        return "Кыш"
     params = json.loads(request.data.decode('utf-8'))
     id_award = params['id_award']
     letter = params['letter']

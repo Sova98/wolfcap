@@ -10,7 +10,7 @@
       rel="stylesheet">
 
     {% if title %}
-        <title>Капитан - {{user.name}}</title>
+        <title>{{title}}</title>
     {% else %}
         <title>Капитаны</title>
     {% endif %}
@@ -23,6 +23,7 @@
             font-weight: 600;
             box-shadow: 0 3px 6px 0 rgba(0,0,0,.08), 0 0.5px 1.5px 0 rgba(0,0,0,.12);
             font-size: 16px;
+            background-color: #d4e3ff;
         }
         li{
             padding-right: 12px;
@@ -49,11 +50,31 @@
             font-size:1.2rem;
             color: #6c757d;
         }
+        body{
+            font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+            background-color: #e2f1ff;
+        }
+        #background-image{
+            width:100%;
+            height:100vh;
+            background-size: 100vw auto;
+            position:fixed;
+            background-position: right top;
+            background-image: url("{{ url_for('static', filename='images/wolfcap_background_image.png') }}");
+            float:left;
+            background-repeat:no-repeat;
+            z-index:-50;
+        }
+        .no_hover:hover{
+            background-color: initial;
+        }
     </style>
 </head>
 <body>
         <nav class="navbar navbar-expand-lg navbar-light navbar-styles">
-          <a class="navbar-brand" href="#" style="margin-left:20px">Капитаны</a>
+          <a class="navbar-brand" href="#" style="margin-left:20px">
+                  <img src="{{url_for('static', filename='images/wolf.png')}}" width="30" height="30" class="d-inline-block align-top" alt="">
+              WolfCap</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -75,8 +96,8 @@
                 </ul>
 
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" style="color:#ffc107!important">{{current_user.coins}} волков</a>
+                    <li class="nav-item no_hover">
+                        <a class="nav-link" style="color:#ffc107!important;">{{current_user.coins}} волков</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.profile', id=current_user.id)}}">Профиль</a>
@@ -84,6 +105,9 @@
                 </ul>
           </div>
         </nav>
+        <div id='background-image'>
+
+        </div>
     <div class="container">
         <div class="page_container">
             {% block content %}
@@ -91,5 +115,9 @@
             {% endblock %}
         </div>
     </div>
+
+    <script>
+        $('input').attr('autocomplete','off');
+    </script>
 </body>
 </html>

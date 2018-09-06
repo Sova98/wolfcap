@@ -17,6 +17,7 @@
         font-weight: 600;
         box-shadow: 0 3px 6px 0 rgba(0,0,0,.08), 0 0.5px 1.5px 0 rgba(0,0,0,.12);
         font-size: 16px;
+        background-color:#d4e3ff;
     }
     li{
         padding-right: 12px;
@@ -70,11 +71,47 @@
         right:50px;
         bottom:50px;
     }
+    body{
+        font-family: 'Open Sans', OpenSans,Arial,sans-serif;
+        background-color: #e2f1ff;
+    }
+    #background-image{
+        width:100%;
+        height:100vh;
+        background-size: 100vw auto;
+        position:fixed;
+        background-position: right top;
+        background-image: url("{{ url_for('static', filename='images/wolfcap_background_image.png') }}");
+        float:left;
+        background-repeat:no-repeat;
+        z-index:-50;
+    }
 
 
 
 </style>
 <body>
+
+    <div class="modal fade" id="confirmModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Подвердите удаление</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p id='confirmModalText'></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+            <button type="button" class="btn btn-primary" id='confirmModalBtn'>Да</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-light navbar-styles">
       <a class="navbar-brand" href="#" style="margin-left:20px">Капитаны</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -95,6 +132,9 @@
 
           </div>
     </nav>
+    <div id='background-image'>
+
+    </div>
 <div class="container" style="">
     {% block content %}
     {% endblock%}
@@ -102,6 +142,17 @@
 </body>
 
 <script>
+    $('input').attr('autocomplete','off');
 
+    {# закрыть окно подтверждения #}
+    function CloseConfirmModal(){
+        $('#confirmModal').modal('hide');
+    }
 </script>
+
+
+
+
+
+
 </html>

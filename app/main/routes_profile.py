@@ -19,4 +19,4 @@ def profile(id):
     req_user = db_ops.load_user_by_id(user_id=id, db_use_class=db_use_class, db_config=db_config)
     if req_user.success:
         req_user_awards = db_ops.load_all_user_awards(user_id=req_user.result.id, db_use_class=db_use_class,db_config=db_config)
-    return render_template('profile.html', user=req_user.result, awards=req_user_awards.result)
+    return render_template('profile.html', user=req_user.result, awards=req_user_awards.result, title=req_user.result.surname + ' ' + req_user.result.name)

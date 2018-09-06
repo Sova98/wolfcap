@@ -15,7 +15,7 @@ ROLE_ADMIN = 1  # Администратор
 
 class User(UserMixin, WebObject):
     def __init__(self, id: int, name: str, login: str, password_hash: str,
-                 login_confirmed: int, coins : int, experience : int, level : int, is_admin: int):
+                 login_confirmed: int, coins : int, experience : int, level : int, is_admin: int, surname : str):
         self.id = id
         self.name = name
         self.login = login
@@ -26,6 +26,7 @@ class User(UserMixin, WebObject):
         self.password_hash = password_hash
         self.authenticated = False
         self.is_admin = is_admin
+        self.surname = surname
         # доступные для пользователя справочники
         self.alowed_manuals = []
         self.alowed_domains = []

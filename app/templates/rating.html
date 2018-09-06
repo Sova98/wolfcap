@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div style="text-align:center">
-    <h4 >Находится в разработке.</h4>
-</div>
+<h4>Лучшие из нас</h4>
+<table class="table table-hover table-light" id="awardTable">
+    <thead>
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Опыт</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in best_users %}
+        <tr>
+            <td><a href='{{url_for("main.profile", id=user.id)}}' >{{ user.name }}</a></td>
+            <td>{{ user.experience }}</td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

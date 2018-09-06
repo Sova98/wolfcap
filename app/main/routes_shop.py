@@ -8,4 +8,4 @@ from flask_login import login_required
 @bp.route('/shop', methods=['POST', 'GET'])
 @login_required
 def shop():
-    return render_template('shop.html')
+    return render_template('shop.html', title='Магазин')

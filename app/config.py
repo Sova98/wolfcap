@@ -11,14 +11,14 @@ class Config(object):
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
     # SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    HOST = '127.0.0.1'
-    PORT = 500
+    HOST = 'sova98-881.postgres.pythonanywhere-services.com'
+    PORT = 10881
 
-    IS_DEBUG = True
+    IS_DEBUG = False
     #CERT = basedir + '/../555.cert'
     #KEY = basedir + '/../555.key'
 
-    EXTERNAL_URL = 'https://127.0.0.1:555'
+    EXTERNAL_URL = 'www.wolfcap.ru'
 
     # MAIL_SERVER = os.environ.get('MAIL_SERVER')
     # MAIL_PORT = int(os.environ.get('MAIL_PORT') or 25)
@@ -41,4 +41,4 @@ class Config(object):
     MAIL_PASSWORD = 'perry_98'
     ADMINS = ['sovervos@gmail.com']
 
-    DB_CONFIG = {'dbname': 'my_database', 'user': 'postgres', 'password': 'sovervo98', 'host': '127.0.0.1', 'port': '5432'}
+    DB_CONFIG = {'dbname': 'wolfcap', 'user': 'super', 'password': 'neversad98', 'host': 'sova98-881.postgres.pythonanywhere-services.com', 'port': '10881'}

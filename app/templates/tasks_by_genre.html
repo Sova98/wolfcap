@@ -37,7 +37,11 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Выполнил задание? Прикрепи доказательства!</label>
+                    <label>Задание</label>
+                    <p id='taskDescription'></p>
+                </div>
+                <div class="form-group">
+                    <label>Выполнил? Прикрепи доказательства!</label>
                     {% include '_load_files.html' %}
                 </div>
                 <form class="needs-validation" id="requestAwardForm">
@@ -72,7 +76,11 @@
 <script>
 
     //текущая награда
-    var current_award_id;
+    var current_award;
+    var tasks = [];
+    {% if tasks %}
+        tasks = {{ tasks|safe }}
+    {% endif %}
     //запросить награду
     function RequestAward(){
         var images = GetImages();
@@ -82,9 +90,8 @@
             contentType: "application/json; charset=utf-8",
             url: "/add_request",
             dataType: 'json',
-            data: JSON.stringify({'images' : images, 'letter' : letter, 'id_award' : current_award_id}),
+            data: JSON.stringify({'images' : images, 'letter' : letter, 'id_award' : current_award.id}),
             success: function (result) {
-            console.log(result);
                 if(result['result'] == "OK") {
                     $('#requestAwardModal').modal('hide');
                 }
@@ -100,7 +107,12 @@
 
     //показать форму для получения награды
     function ShowRequestAwardModal(id){
-        current_award_id = id;
+        tasks.forEach(function(award){
+            if(award.id == id){
+                current_award = award;
+                return
+            }
+        });
         InitializeRequestAward();
         $('#requestAwardModal').modal('show');
     }
@@ -109,6 +121,7 @@
         $('#files').val('');
         $('#inputLetter').val('');
         $('#list').empty();
+        $('#taskDescription').text(current_award.requirement);
 
     }
 </script>

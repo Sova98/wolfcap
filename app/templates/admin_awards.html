@@ -1,6 +1,15 @@
 {% extends 'admin_base.html' %}
 
+
 {% block content%}
+<style>
+    .material-icons{
+        cursor: pointer;
+    }
+    .hide{
+
+    }
+</style>
 <table class="table table-hover table-light" id="awardTable">
     <thead>
         <tr>
@@ -14,14 +23,17 @@
     </thead>
     <tbody>
     {% for award in awards %}
-        <tr>
+        <tr id='award_{{ award.id }}'>
             <th scope="row">{{ award.id }}</th>
             <td>{{ award.name }}</td>
             <td>{{ award.id_award_type }}</td>
             <td>{{ award.experience }}</td>
             <td>{{ award.coins }}</td>
             <td>0</td>
-            <td>options</td>
+            <td>
+                <span class='material-icons' onclick='EditAward({{award.id}})'>edit</span>
+                <span class='material-icons' onclick='ShowConfirmDeleteAward({{award.id}})'>clear</span>
+            </td>
         </tr>
 
     {% endfor %}
@@ -87,6 +99,13 @@
     //загрузить категории
     LoadCategories();
 
+    {# награды #}
+    var awards = [];
+    {% if awards %}
+    awards = {{ awards|safe }}
+    {% endif %}
+
+    var current_award;
 
     //поазать окно добавления награды
     function ShowAddNewAwardModal(){
@@ -178,7 +197,60 @@
         .append($('<td>').text(award.experience))
         .append($('<td>').text(award.coins))
         .append($('<td>').text('0'))
-        .append($('<td>').text('options') ) );
+        .append($('<td>')
+            .append($('<span>').attr('class', 'material-icons').text('edit').attr('onclick', 'EditAward('+award.id+')'))
+            .append($('<span>').attr('class', 'material-icons').text('clear')).attr('onclick', 'ShowConfirmDeleteAward('+award.id+')') ));
     }
+
+    {# удалить награду #}
+    function DeleteAward(id){
+        $.ajax({
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            url: "{{ url_for('main.delete_award') }}",
+            dataType: 'json',
+            data: JSON.stringify({id_award : id}),
+            success: function (result) {
+                if(result['result'] == "OK") {
+                    CloseConfirmModal();
+                    DeleteAwardFromTable(id);
+                }
+                else{
+                    console.log(result['msg'])
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+    {# показать окно подтверждения #}
+    function ShowConfirmDeleteAward(id){
+        awards.forEach(function(award){
+            if(award.id == id){
+                current_award= award;
+            }
+        });
+
+        $('#confirmModalText').text('Вы действительно хотите удалить награду ' + current_award.name + ' c ID ' + current_award.id + '?');
+        $('#confirmModalBtn').attr('onclick', 'DeleteAward('+current_award.id+')');
+        $('#confirmModal').modal('show');
+    }
+
+    {# удалить награду из таблицы #}
+    function DeleteAwardFromTable(id){
+        $('#award_'+id).remove();
+    }
+
+
+
+
+
+
+
+
+
+
 </script>
 {% endblock %}

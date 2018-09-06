@@ -3,9 +3,9 @@ from flask import render_template, request, redirect, url_for
 from app import login_manager
 from app.models.user import User
 import app.code.db_operations as db_ops
+from app.config_db import db_config, db_use_class
 import json
 from flask_bcrypt import generate_password_hash, check_password_hash
-from app.config_db import db_config, db_use_class
 import app.code.json_utils as ju
 from flask_login import login_user
 from flask_login import current_user
@@ -15,7 +15,7 @@ from app.mails import send_email
 
 def send_login_confirmation_email(sys_user: User = None):
     token = sys_user.get_confirm_login_token()
-    send_email('[ASchool] Confirm Your E-Mail',
+    return send_email('[Wolfcap] Confirm Your E-Mail',
                sender=Config.ADMINS[0],
                recipients=[sys_user.login],
                text_body=render_template('emails/confirm_email.txt',
@@ -48,16 +48,19 @@ def registration():
         email = params['user_email']
         password = params['user_password']
         name = params['username']
+        surname = params['surname']
         password_hash = generate_password_hash(password).decode('utf-8')
-        req_create_user = db_ops.create_user(name=name, email=email, password_hash=password_hash,
+        req_create_user = db_ops.create_user(surname=surname, name=name, email=email, password_hash=password_hash,
                                              db_use_class=db_use_class,
                                              db_config=db_config)
         if req_create_user.success:
             req_get_user = db_ops.load_user_by_login(email, db_use_class=db_use_class, db_config=db_config)
             if req_get_user.success:
-                send_login_confirmation_email(req_get_user.result)
-            return render_template('registration_success.html')
-    return render_template('registration.html')
+                if send_login_confirmation_email(req_get_user.result):
+                    return render_template('registration_success.html')
+                else:
+                    return 'Что-то пошло не так...'
+    return render_template('registration.html', title='Регистрация')
 
 
 @bp.route('/login', methods=['POST', 'GET'])
@@ -76,4 +79,4 @@ def login():
             if check_password_hash(user_password_hash, password):
                 login_user(req_user.result, remember=True)
                 return redirect(url_for('main.profile', id=req_user.result.id))
-    return render_template('login.html')
+    return render_template('login.html', title='Авторизация')
